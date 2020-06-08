@@ -10,9 +10,9 @@ script:
 
 after_success:
   - docker build -t arduinohack/multi-client ./client
-  - docker build -t arduinohack/multi-client ./nginx
-  - docker build -t arduinohack/multi-client ./server
-  - docker build -t arduinohack/multi-client ./worker
+  - docker build -t arduinohack/multi-nginx ./nginx
+  - docker build -t arduinohack/multi-server ./server
+  - docker build -t arduinohack/multi-worker ./worker
 
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
