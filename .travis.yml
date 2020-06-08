@@ -2,8 +2,8 @@ sudo: required
 services:
   - docker
 
-before _install:
-  - docker build -t arduinohack/react-test -f ./client/Dockerfile.dev
+before_install:
+  - docker build -t arduinohack/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true arduinohack/react-test npm test -- --coverage
