@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before _install:
+  - docker build -t arduinohack/react-test -f ./client/Dockerfile.dev
+
+script:
+  - docker run -e CI=true arduinohack/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t arduinohack/multi-client ./client
+  - docker build -t arduinohack/multi-client ./nginx
+  - docker build -t arduinohack/multi-client ./server
+  - docker build -t arduinohack/multi-client ./worker
+
+# Log in to the docker CLI
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+# take those images and push them to docker hub
+- docker push arduinohack/multi-client
+- docker push arduinohack/multi-nginx
+- docker push arduinohack/multi-server
+- docker push arduinohack/multi-worker
