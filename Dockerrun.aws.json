@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions":[
+      {
+        "name":"client",
+        "image":"arduinohack/multi-client",
+        "hostname": "client",
+        "essential": false
+      },
+      {
+          "name": "server",
+          "image": "arduinohack/multi-server",
+          "hostname": "api",
+          "essential": false
+      },
+      {
+          "name": "worker",
+          "image":"arduinohack/multi-worker",
+          "hostname": "worker",
+          "essential": false
+      },
+      {
+          "name": "nginx",
+          "image": "arduinohack/multi-nginx",
+          "hostname": "nginx",
+          "essential": true,
+          "portMappings": [
+              {
+                  "hostPort": 80,
+                  "containerPort":80
+              }
+          ],
+          "links": ["client", "server"]
+      }
+    ]
+} 
